@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rlsentinel"
+version = "0.1.0"
+description = "Find publicly-exposed Supabase tables (RLS disabled) and leaked Supabase API keys."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{ name = "Kartikey Patel" }]
+keywords = ["supabase", "postgres", "security", "row-level-security", "rls", "scanner"]
+dependencies = [
+    "typer>=0.12",
+    "rich>=13.0",
+    "psycopg[binary]>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov",
+    "testcontainers[postgres]>=4.0",
+    "ruff",
+    "mypy",
+]
+
+[project.scripts]
+rlsentinel = "rlsentinel.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rlsentinel"]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: requires Docker (testcontainers), skipped automatically if unavailable",
+]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint.per-file-ignores]
+# Typer's documented idiom is calling Option()/Argument() as parameter
+# defaults -- B008 is a false positive for this framework's own API shape.
+"src/rlsentinel/cli.py" = ["B008"]
