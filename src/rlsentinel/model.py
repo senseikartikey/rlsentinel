@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
+from rlsentinel import __version__
 from rlsentinel.severity import Severity
 
 SCHEMA_VERSION = "1"
@@ -30,7 +31,7 @@ class Finding:
 class ScanReport:
     findings: list[Finding] = field(default_factory=list)
     scanned_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    tool_version: str = "0.1.0"
+    tool_version: str = __version__
 
     def summary(self) -> dict[str, int]:
         counts = {s.name.lower(): 0 for s in Severity}

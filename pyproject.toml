@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "rlsentinel"
-version = "0.1.0"
+version = "0.1.1"
 description = "Find publicly-exposed Supabase tables (RLS disabled) and leaked Supabase API keys."
 readme = "README.md"
 license = "MIT"
