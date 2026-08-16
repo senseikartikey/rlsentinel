@@ -1,5 +1,10 @@
 # rlsentinel
 
+[![PyPI](https://img.shields.io/pypi/v/rlsentinel)](https://pypi.org/project/rlsentinel/)
+[![CI](https://github.com/senseikartikey/rlsentinel/actions/workflows/ci.yml/badge.svg)](https://github.com/senseikartikey/rlsentinel/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/pypi/pyversions/rlsentinel)](https://pypi.org/project/rlsentinel/)
+
 Find publicly-exposed Supabase/Postgres tables (Row-Level Security disabled +
 reachable via the `anon`/`authenticated` roles) and leaked Supabase API keys
 in your repo.
@@ -23,6 +28,10 @@ authentication. The fix was one SQL statement per table
 it until a vendor alert caught it after the fact.
 
 `rlsentinel` is the tool that would have caught it before it shipped.
+
+## Example output
+
+<img src="docs/demo.svg" alt="rlsentinel scan terminal output showing a CRITICAL RLS-disabled finding, a HIGH leaked key finding, and remediation SQL" width="100%">
 
 ## What it checks
 
@@ -51,10 +60,8 @@ it until a vendor alert caught it after the fact.
 ## Install
 
 ```bash
-pip install -e ".[dev]"
+pip install rlsentinel
 ```
-
-(Not yet published to PyPI.)
 
 ## Usage
 
@@ -98,6 +105,12 @@ pytest -m integration              # spins up ephemeral Postgres via testcontain
 On Windows with Docker Desktop, testcontainers' resource-reaper sidecar can fail to
 expose its port (`ConnectionError: Port mapping ... is not available`). If you hit
 this, set `TESTCONTAINERS_RYUK_DISABLED=true` before running the integration tests.
+
+`docs/demo.svg` (the screenshot above) is generated, not hand-drawn:
+
+```bash
+python scripts/generate_demo.py
+```
 
 ## License
 

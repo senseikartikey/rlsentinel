@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from rich.console import Console
+from rich.markup import escape
 from rich.panel import Panel
 from rich.table import Table
 
@@ -39,7 +40,9 @@ def render(report: ScanReport, exit_code: int, console: Console | None = None) -
         table.add_column("Finding")
         for f in sorted(cat_findings, key=lambda f: f.severity, reverse=True):
             table.add_row(
-                f"[{SEVERITY_COLORS[f.severity]}]{f.severity.name}[/]", f.location, f.title
+                f"[{SEVERITY_COLORS[f.severity]}]{f.severity.name}[/]",
+                escape(f.location),
+                escape(f.title),
             )
         console.print(table)
 
@@ -59,8 +62,8 @@ def render(report: ScanReport, exit_code: int, console: Console | None = None) -
 
 
 def _render_detail(console: Console, f: Finding) -> None:
-    console.print(f"\n[{SEVERITY_COLORS[f.severity]}]{f.severity.name}[/] - {f.title}")
-    console.print(f"  {f.description}")
+    console.print(f"\n[{SEVERITY_COLORS[f.severity]}]{f.severity.name}[/] - {escape(f.title)}")
+    console.print(f"  {escape(f.description)}")
     if f.evidence:
-        console.print(f"  Evidence: {f.evidence}")
-    console.print(f"  [bold]Fix:[/bold] [green]{f.remediation}[/green]")
+        console.print(f"  Evidence: {escape(f.evidence)}")
+    console.print(f"  [bold]Fix:[/bold] [green]{escape(f.remediation)}[/green]")
